@@ -23,3 +23,16 @@ footer{padding:24px 0 32px;align-items:baseline;font-size:14px;color:#58654c}
 .pie-detalle{font-size:12px;color:#6c775f;line-height:1.8}
 footer>span:last-child{font-size:12px;color:#6c775f}
 @media(max-width:760px){.barra-estado p{flex-basis:100%}.campo p{min-height:0}.conteo>span{font-size:8px}.resultado-cabecera{align-items:flex-start}.nota-tabla{font-size:11px}footer{flex-direction:column;gap:14px}footer>span:last-child{max-width:none;text-align:left}.pie-detalle{margin-top:7px}.campo select{font-size:16px}.nombre-nativo span{margin-top:3px}}
+
+/* Posición explícita de la flecha: no depende del margen del control nativo. */
+select{
+  -webkit-appearance:none;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%2365705b' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 18px center;
+  background-size:12px 8px;
+  padding-right:48px;
+}
+select:disabled{background-color:#f5f5ef}
+@media(forced-colors:active){select{appearance:auto;background-image:none;padding-right:16px}}
