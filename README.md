@@ -69,7 +69,7 @@ GET https://countries.dev/region/asia
 
 REST Countries v3.1 fue verificada durante el desarrollo y respondió con un aviso de descontinuación, por lo que no se utiliza en esta implementación. Las regiones son estáticas, como permite la alternativa de la consigna: África, América, Asia, Europa, Oceanía y Polar.
 
-Los nombres se conservan tal como los devuelve la fuente; no se inventan traducciones ni idiomas ausentes. La disponibilidad y la vigencia de los datos dependen del servicio externo.
+Los países y los idiomas se presentan en español con `Intl.DisplayNames`, usando los códigos ISO de la respuesta. Así, Perú aparece con tilde y Japan como Japón. Los nombres nativos se conservan exactamente como los devuelve la fuente. Si no hay un código reconocido, se mantiene la etiqueta original; no se inventan idiomas ausentes. La disponibilidad y la vigencia de los datos dependen del servicio externo.
 
 ## Funcionamiento
 
@@ -97,6 +97,7 @@ Todos los archivos se encuentran en la raíz del proyecto.
 
 | Archivo | Capa y responsabilidad |
 |---|---|
+| `localizacion.js` | Adaptador de nombres de países e idiomas al español con códigos ISO. |
 | `dominio.js` | Modelo de país, normalización de idiomas y catálogo de regiones. |
 | `consultar-paises.js` | Caso de uso para consultar una región válida. |
 | `repositorio-paises.js` | Adaptador HTTP que transforma la respuesta externa al modelo propio. |
@@ -113,19 +114,19 @@ Se utilizan nombres propios en español, `textContent` para representar datos co
 
 ## Resultado esperado
 
-Al seleccionar **América** y luego **Peru**:
+Al seleccionar **América** y luego **Perú**:
 
 | Language | Native name |
 |---|---|
-| Spanish | Español |
+| Español | Español |
 
 Nombre nativo del país: **Perú**.
 
-Al seleccionar **Asia** y luego **Japan**:
+Al seleccionar **Asia** y luego **Japón**:
 
 | Language | Native name |
 |---|---|
-| Japanese | 日本語 (にほんご) |
+| Japonés | 日本語 (にほんご) |
 
 Nombre nativo del país: **日本**.
 
@@ -137,7 +138,7 @@ Estos resultados corresponden a la respuesta observada durante la comprobación;
 npm test
 ```
 
-Seis pruebas automatizadas verifican la normalización de datos, el rechazo de regiones inválidas, la señal de cancelación y ordenamiento, los errores HTTP y de formato, el descarte de respuestas antiguas y el estado de reintento.
+Ocho pruebas automatizadas verifican la normalización de datos, el rechazo de regiones inválidas, la señal de cancelación y ordenamiento, los errores HTTP y de formato, el descarte de respuestas antiguas el estado de reintento, la localización de Perú y la conservación de etiquetas sin código válido.
 
 También se verificó en el navegador la consulta real de América y Perú y el cambio a Asia y Japón, con recarga del selector y limpieza del resultado anterior.
 

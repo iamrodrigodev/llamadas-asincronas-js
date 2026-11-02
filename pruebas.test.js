@@ -1,4 +1,5 @@
 import prueba from 'node:test';
+import { localizarDatosPais } from './localizacion.js';
 import verificar from 'node:assert/strict';
 import { crearPais, regiones } from './dominio.js';
 import { ConsultarPaises } from './consultar-paises.js';
@@ -47,4 +48,14 @@ prueba('un fallo permite presentar el estado de reintento', async () => {
   const controlador = new ControladorPaises({ regiones, vista, consulta: { ejecutar: async () => { throw new Error('Sin conexión'); } } });
   await controlador.cambiarRegion('asia');
   verificar.equal(vista.estados.at(-1)[1], 'error');
+});
+
+prueba('localiza Perú e idiomas sin modificar los nombres nativos', () => {
+  const pais = localizarDatosPais({ name: 'Peru', alpha2Code: 'PE', nativeName: 'Perú', languages: [{ name: 'Spanish', iso639_1: 'es', nativeName: 'Español' }] });
+  verificar.equal(pais.name, 'Perú');
+  verificar.equal(pais.languages[0].name, 'Español');
+  verificar.equal(pais.languages[0].nativeName, 'Español');
+});
+prueba('conserva la fuente cuando falta un código de traducción válido', () => {
+  verificar.equal(localizarDatosPais({ name: 'País de ejemplo', languages: [{ name: 'Idioma de ejemplo', iso639_1: '??' }] }).languages[0].name, 'Idioma de ejemplo');
 });
