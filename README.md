@@ -157,7 +157,7 @@ Estos resultados corresponden a la respuesta observada durante la comprobación;
 npm test
 ```
 
-Ocho pruebas automatizadas verifican la normalización de datos, el rechazo de regiones inválidas, la señal de cancelación y ordenamiento, los errores HTTP y de formato, el descarte de respuestas antiguas el estado de reintento, la localización de Perú y la conservación de etiquetas sin código válido.
+Doce pruebas automatizadas verifican la normalización de datos, el rechazo de regiones inválidas, la señal de cancelación y ordenamiento, los errores HTTP y de formato, el descarte de respuestas antiguas el estado de reintento, la localización de Perú la conservación de etiquetas sin código válido, registros malformados, regiones vacías, cancelación al quitar la región y selección de países de la región actual.
 
 También se verificó en el navegador la consulta real de América y Perú y el cambio a Asia y Japón, con recarga del selector y limpieza del resultado anterior.
 
@@ -174,3 +174,15 @@ También se verificó en el navegador la consulta real de América y Perú y el 
 ### Asia y Japón
 
 ![Recarga por región y resultado de Japón](./03-japon.jpg)
+
+### País con varios idiomas: Canadá
+
+![Canadá y sus dos idiomas](./04-canada.jpg)
+
+### Región consultada, antes de elegir un país
+
+![Asia consultada con el selector de país disponible](./05-region-asia.jpg)
+
+### Resultado de las pruebas ampliadas
+
+`npm test`: 12 aprobadas, 0 fallidas y 0 omitidas. Las comprobaciones automatizadas utilizan respuestas controladas; las capturas documentan consultas reales en el navegador. El límite de espera de 15 segundos está implementado y no forma parte de estas pruebas.

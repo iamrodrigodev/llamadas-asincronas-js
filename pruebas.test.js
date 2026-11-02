@@ -59,3 +59,41 @@ prueba('localiza Perú e idiomas sin modificar los nombres nativos', () => {
 prueba('conserva la fuente cuando falta un código de traducción válido', () => {
   verificar.equal(localizarDatosPais({ name: 'País de ejemplo', languages: [{ name: 'Idioma de ejemplo', iso639_1: '??' }] }).languages[0].name, 'Idioma de ejemplo');
 });
+
+prueba('rechaza registros de país sin identificador', () => {
+  verificar.throws(() => crearPais({ name: 'Peru' }), /formato inesperado/);
+});
+prueba('admite regiones sin países', async () => {
+  const vista = prepararVista();
+  const controlador = new ControladorPaises({ regiones, vista, consulta: { ejecutar: async () => [] } });
+  await controlador.cambiarRegion('polar');
+  verificar.deepEqual(vista.resultados, [[]]);
+  verificar.match(vista.estados.at(-1)[0], /No se encontraron/);
+});
+prueba('volver a la región vacía cancela y descarta una consulta pendiente', async () => {
+  let resolverConsulta, senalRecibida;
+  const vista = prepararVista();
+  const controlador = new ControladorPaises({ regiones, vista, consulta: { ejecutar: (region, senal) => {
+    senalRecibida = senal;
+    return new Promise(resolver => { resolverConsulta = resolver; });
+  } } });
+  const pendiente = controlador.cambiarRegion('asia');
+  await controlador.cambiarRegion('');
+  verificar.equal(senalRecibida.aborted, true);
+  resolverConsulta([{ codigo: 'JPN' }]);
+  await pendiente;
+  verificar.deepEqual(vista.resultados, []);
+  verificar.deepEqual(controlador.paises, []);
+});
+prueba('selecciona solo países de la región actual y elimina selecciones inválidas', async () => {
+  const vista = prepararVista();
+  const mostrados = [];
+  vista.mostrarPais = (pais, region) => mostrados.push({ pais, region });
+  const peru = { codigo: 'PER', nombre: 'Perú' };
+  const controlador = new ControladorPaises({ regiones, vista, consulta: { ejecutar: async () => [peru] } });
+  await controlador.cambiarRegion('americas');
+  controlador.cambiarPais('PER');
+  verificar.deepEqual(mostrados.at(-1), { pais: peru, region: 'América' });
+  controlador.cambiarPais('JPN');
+  verificar.equal(mostrados.at(-1).pais, undefined);
+});
