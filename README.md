@@ -32,15 +32,34 @@ Diseño personalizado y minimalista, sin iconos ni bibliotecas de interfaz: fond
 
 ## Tecnologías utilizadas
 
-- HTML y CSS: estructura, diseño adaptable y controles accesibles.
-- JavaScript: módulos ES, `fetch`, `async/await` y `AbortController`.
-- API Countries: datos reales por región.
-- Node.js: pruebas automatizadas con `node:test`.
-- Python 3: servidor HTTP local para los módulos del navegador.
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/es/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css&logoColor=white)](https://developer.mozilla.org/es/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/es/docs/Web/JavaScript)
+[![Fetch API](https://img.shields.io/badge/Fetch_API-async%2Fawait-7060DF?style=for-the-badge&logo=javascript&logoColor=white)](https://developer.mozilla.org/es/docs/Web/API/Fetch_API)
+[![API Countries](https://img.shields.io/badge/API_Countries-REST-52634A?style=for-the-badge)](https://www.apicountries.com/docs/api/region)
+[![Node.js](https://img.shields.io/badge/Node.js-Pruebas-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Python](https://img.shields.io/badge/Python-3-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+
+- **HTML** para la estructura, los selectores y la tabla de datos.
+- **CSS** para el diseño personalizado, adaptable y los controles accesibles.
+- **JavaScript** con módulos y funciones y variables propias en español.
+- API estándar **Fetch**, `async/await` y `AbortController` para consultas asíncronas y cancelación.
+- **API Countries** como servicio REST de países e idiomas por región.
+- **Node.js** para ejecutar las comprobaciones con `node:test`.
+- **Python 3** para servir los archivos localmente.
+
+La aplicación no requiere instalar paquetes ni dependencias externas. El logo y las insignias de este README requieren conexión para visualizarse. Las consultas de países también necesitan conexión al servicio; la interfaz no depende de las imágenes del README.
 
 ## Ejecución
 
-Desde la raíz del proyecto:
+Clonar el repositorio y abrir una terminal en su raíz:
+
+```bash
+git clone https://github.com/iamrodrigodev/llamadas-asincronas-js.git
+cd llamadas-asincronas-js
+```
+
+Iniciar el servidor local:
 
 ```bash
 python3 -m http.server 8001
