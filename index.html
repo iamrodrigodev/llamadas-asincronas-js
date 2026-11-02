@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f4ef">
+  <meta name="description" content="Explora los idiomas y nombres nativos de los países mediante consultas asíncronas.">
+  <title>Meridiano — Países e idiomas</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="estilos.css">
+  <script type="module" src="aplicacion.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera"><a class="marca" href="./">meridiano<span>.</span></a><span class="cabecera-descripcion">UN ATLAS DE PALABRAS</span><span class="edicion">Explorador de países / 01</span></header>
+  <main id="contenido">
+    <section class="presentacion" aria-labelledby="titulo"><div class="introduccion"><p class="antetitulo">GEOGRAFÍA, IDIOMAS E IDENTIDAD</p><h1 id="titulo">El mundo,<br>en sus propias <em>palabras.</em></h1><p class="descripcion">Cada lugar tiene una forma de nombrarse.<br>Elige una región y descubre los idiomas que le dan voz.</p></div><div class="composicion" aria-hidden="true"><div class="orbita orbita-uno"></div><div class="orbita orbita-dos"></div><div class="orbita orbita-tres"></div><span class="coordenada superior">N 00° 00′</span><span class="palabra palabra-uno">mundo</span><span class="palabra palabra-dos">world</span><span class="palabra palabra-tres">世界</span><span class="coordenada inferior">MUCHAS VOCES. UN PLANETA.</span></div></section>
+    <section class="explorador" aria-labelledby="titulo-explorador"><div class="seccion-cabecera"><h2 id="titulo-explorador">Un lugar para empezar</h2><span>01 — EXPLORA</span></div><div class="selectores"><div class="campo"><label for="region"><span>01</span> Región</label><select id="region" aria-describedby="ayuda-region"><option value="">Selecciona una región</option></select><p id="ayuda-region">El primer paso de tu recorrido.</p></div><div class="campo"><label for="pais"><span>02</span> País</label><select id="pais" disabled aria-describedby="ayuda-pais"><option value="">Primero elige una región</option></select><p id="ayuda-pais">Los países aparecerán al elegir una región.</p></div></div><div class="barra-estado"><p id="estado" role="status" aria-live="polite" aria-atomic="true">Elige una región para comenzar.</p><button id="reintentar" type="button" hidden>Volver a intentar</button><span class="origen">DATOS DE API COUNTRIES</span></div></section>
+    <section class="vacio" id="vacio" aria-labelledby="titulo-vacio"><span class="numero-editorial" aria-hidden="true">Aa</span><div><p class="antetitulo">CADA IDIOMA, UNA PERSPECTIVA</p><h2 id="titulo-vacio">Aquí empieza otra forma de ver el mundo.</h2><p id="mensaje-vacio">Selecciona una región y un país para conocer sus idiomas y nombres nativos.</p></div></section>
+    <section id="resultado" class="resultado" hidden aria-labelledby="nombre-pais"><div class="resultado-cabecera"><div><p id="ruta-pais" class="antetitulo"></p><h2 id="nombre-pais"></h2><p class="nombre-nativo">Nombre nativo del país <span id="nombre-nativo"></span></p></div><div class="conteo"><strong id="cantidad-idiomas"></strong><span id="etiqueta-idiomas">IDIOMAS REGISTRADOS</span></div></div><div class="tabla-contenedor" tabindex="0" role="region" aria-label="Idiomas y nombres nativos"><table><caption class="solo-lectores">Idiomas del país seleccionado y sus nombres nativos</caption><thead><tr><th scope="col">IDIOMA <span>Language</span></th><th scope="col">NOMBRE NATIVO <span>Native name</span></th></tr></thead><tbody id="idiomas"></tbody></table></div><p class="nota-tabla">Los nombres se muestran tal como los proporciona la fuente. La disponibilidad varía por país.</p></section>
+    <footer><span>meridiano. <span class="pie-detalle">Un pequeño recorrido por nuestras diferencias.</span></span><span>Consultas asíncronas con JavaScript</span></footer>
+  </main>
+</body>
+</html>

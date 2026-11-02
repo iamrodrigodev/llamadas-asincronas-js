@@ -1,0 +1,8 @@
+{
+  "name": "llamadas-asincronas-js",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Explorador de países e idiomas con consultas asíncronas y arquitectura limpia",
+  "scripts": {"start": "python3 -m http.server 8001", "test": "node --test pruebas.test.js"}
+}

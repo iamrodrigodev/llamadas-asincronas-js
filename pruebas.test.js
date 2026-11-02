@@ -1,0 +1,50 @@
+import prueba from 'node:test';
+import verificar from 'node:assert/strict';
+import { crearPais, regiones } from './dominio.js';
+import { ConsultarPaises } from './consultar-paises.js';
+import { RepositorioPaises } from './repositorio-paises.js';
+import { ControladorPaises } from './controlador-paises.js';
+
+prueba('normaliza nombres nativos sin inventar datos ausentes', () => {
+  verificar.deepEqual(crearPais({ name: 'Peru', alpha3Code: 'PER', languages: [{ name: 'Spanish', nativeName: 'Español' }] }), {
+    codigo: 'PER', nombre: 'Peru', nombreNativo: 'No disponible', idiomas: [{ nombre: 'Spanish', nombreNativo: 'Español' }]
+  });
+});
+prueba('rechaza regiones no permitidas sin consultar la red', async () => {
+  const consulta = new ConsultarPaises({ obtenerPorRegion() { throw new Error('No debe llamarse'); } }, regiones);
+  await verificar.rejects(consulta.ejecutar('invalida'), /región válida/);
+});
+prueba('el repositorio propaga la señal, normaliza y ordena la respuesta', async () => {
+  const senal = new AbortController().signal;
+  const repositorio = new RepositorioPaises({ consultar: async (direccion, opciones) => {
+    verificar.match(direccion, /region\/americas$/);
+    verificar.equal(opciones.signal, senal);
+    return { ok: true, json: async () => [{ name: 'Peru', alpha3Code: 'PER' }, { name: 'Argentina', alpha3Code: 'ARG' }] };
+  }});
+  verificar.deepEqual((await repositorio.obtenerPorRegion('americas', senal)).map(pais => pais.codigo), ['ARG', 'PER']);
+});
+prueba('maneja errores HTTP y respuestas inesperadas', async () => {
+  await verificar.rejects(new RepositorioPaises({ consultar: async () => ({ ok: false }) }).obtenerPorRegion('asia'), /consultar/);
+  await verificar.rejects(new RepositorioPaises({ consultar: async () => ({ ok: true, json: async () => ({}) }) }).obtenerPorRegion('asia'), /inesperada/);
+});
+function prepararVista() {
+  return { resultados: [], estados: [], prepararConsulta() {}, presentarPaises(paises) { this.resultados.push(paises); }, mostrarEstado(...estado) { this.estados.push(estado); }, mostrarPais() {} };
+}
+prueba('una respuesta antigua no sobrescribe la región más reciente', async () => {
+  const pendientes = {};
+  const vista = prepararVista();
+  const controlador = new ControladorPaises({ regiones, vista, consulta: { ejecutar: region => new Promise(resolver => { pendientes[region] = resolver; }) } });
+  const primera = controlador.cambiarRegion('americas');
+  const segunda = controlador.cambiarRegion('asia');
+  pendientes.asia([{ codigo: 'JPN' }]);
+  await segunda;
+  pendientes.americas([{ codigo: 'PER' }]);
+  await primera;
+  verificar.deepEqual(vista.resultados, [[{ codigo: 'JPN' }]]);
+});
+prueba('un fallo permite presentar el estado de reintento', async () => {
+  const vista = prepararVista();
+  const controlador = new ControladorPaises({ regiones, vista, consulta: { ejecutar: async () => { throw new Error('Sin conexión'); } } });
+  await controlador.cambiarRegion('asia');
+  verificar.equal(vista.estados.at(-1)[1], 'error');
+});
